@@ -22,6 +22,7 @@ import {
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_SUCCESS,
 } from "../constants/productConstants";
+import { logout } from "./userActions";
 
 //Action creators
 export const listProducts =
@@ -200,7 +201,7 @@ export const createProductReview =
         },
       };
 
-      const { data } = axios.post(
+      const { data } = await axios.post(
         `/api/products/${productId}/reviews`,
         review,
         config
@@ -211,12 +212,17 @@ export const createProductReview =
         payload: data,
       });
     } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+
+      if (message === "Not authorized, token failed") {
+        dispatch(logout());
+      }
       dispatch({
         type: PRODUCT_CREATE_REVIEW_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
+        payload: message,
       });
     }
   };

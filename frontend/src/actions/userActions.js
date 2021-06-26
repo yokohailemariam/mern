@@ -1,5 +1,5 @@
 import axios from "axios";
-// import { CART_RESET_ITEM } from "../constants/cartConstants";
+import { CART_RESET_ITEM } from "../constants/cartConstants";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 import {
   USER_DELETE_FAIL,
@@ -65,19 +65,15 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   localStorage.removeItem("userInfo");
-  dispatch({
-    type: USER_LOGOUT,
-  });
-  dispatch({
-    type: USER_DETAILS_RESET,
-  });
-  dispatch({
-    type: ORDER_LIST_MY_RESET,
-  });
-  dispatch({
-    type: USER_LIST_RESET,
-  });
-  // dispatch({ type: CART_RESET_ITEM });
+  localStorage.removeItem("cartItems");
+  // localStorage.removeItem("shippingAddress");
+  // localStorage.removeItem("paymentMethod");
+  dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: ORDER_LIST_MY_RESET });
+  dispatch({ type: USER_LIST_RESET });
+  dispatch({ type: CART_RESET_ITEM });
+  document.location.href = "/login";
 };
 
 export const register = (name, email, password) => async (dispatch) => {
