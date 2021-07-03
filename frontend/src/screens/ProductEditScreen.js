@@ -7,7 +7,8 @@ import FormContainer from "../components/FormContainer";
 import { Link } from "react-router-dom";
 import { listProductDetails, updateProduct } from "../actions/productActions";
 import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
-import axios from "axios";
+// import axios from "axios";
+import Progress from "../firebase/Progress";
 
 const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id;
@@ -18,7 +19,9 @@ const ProductEditScreen = ({ match, history }) => {
   const [category, setCategory] = useState("");
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
-  const [uploading, setUploading] = useState(false);
+  // const [uploading, setUploading] = useState(false);
+  const [file, setFile] = useState(null);
+  const [imageError, setImageError] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -51,27 +54,37 @@ const ProductEditScreen = ({ match, history }) => {
     }
   }, [productId, product, dispatch, history, successUpdate]);
 
+  const types = ["image/png", "image/jpeg", "image/jpg"];
   const uploadFileHandler = async (e) => {
-    //single file
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("image", file);
-    setUploading(true);
+    // //single file
+    // const file = e.target.files[0];
+    // const formData = new FormData();
+    // formData.append("image", file);
+    // setUploading(true);
 
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
+    // try {
+    //   const config = {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   };
 
-      const { data } = await axios.post("/api/upload", formData, config);
+    //   const { data } = await axios.post("/api/upload", formData, config);
 
-      setImage(data);
-      setUploading(false);
-    } catch (error) {
-      console.error(error);
-      setUploading(false);
+    //   setImage(data);
+    //   setUploading(false);
+    // } catch (error) {
+    //   console.error(error);
+    //   setUploading(false);
+    // }
+
+    let selected = e.target.files[0];
+    if (selected && types.includes(selected.type)) {
+      setFile(selected);
+      setImageError("");
+    } else {
+      setFile(null);
+      setImageError("Please select an image");
     }
   };
 
@@ -126,7 +139,7 @@ const ProductEditScreen = ({ match, history }) => {
             </Form.Group>
 
             <Form.Group controlId="Image">
-              <Form.Label>Image Address</Form.Label>
+              <Form.Label>Image</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter Image Url"
@@ -134,12 +147,20 @@ const ProductEditScreen = ({ match, history }) => {
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
               <Form.File
+                type="file"
                 id="image-file"
                 label="Choose File"
                 custom
                 onChange={uploadFileHandler}
               ></Form.File>
-              {uploading && <Loader />}
+              {imageError && <Message variant="danger">{imageError}</Message>}
+              {file && (
+                <Progress
+                  file={file}
+                  setFile={setFile}
+                  setImage={setImage}
+                />
+              )}
             </Form.Group>
 
             <Form.Group controlId="brand">

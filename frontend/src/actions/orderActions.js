@@ -15,6 +15,9 @@ import {
   ORDER_LIST_MY_SUCCESS,
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
+  ORDER_MY_LIST_FAIL,
+  ORDER_MY_LIST_REQUEST,
+  ORDER_MY_LIST_SUCCESS,
   ORDER_PAY_FAIL,
   ORDER_PAY_REQUEST,
   ORDER_PAY_SUCCESS,
@@ -235,3 +238,42 @@ export const listOrders = () => async (dispatch, getState) => {
     });
   }
 };
+
+export const listMyOrdersById =
+  (id, pageNumber = "") =>
+  async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: ORDER_MY_LIST_REQUEST,
+      });
+      //access  userlogin get user info and pass it to get token
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      //Authorization // token
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        `/api/orders/my/${id}/my?pageNumber=${pageNumber}`,
+        config
+      );
+
+      dispatch({
+        type: ORDER_MY_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ORDER_MY_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

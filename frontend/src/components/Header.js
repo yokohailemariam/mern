@@ -26,20 +26,28 @@ const Header = () => {
               render={({ history }) => <SearchBox history={history} />}
             ></Route>
             <Nav className="ml-auto">
-              <LinkContainer to="/cart">
-                <Nav.Link>
-                  <i className="fa fa-shopping-cart"></i> CART
-                </Nav.Link>
-              </LinkContainer>
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
-                  <LinkContainer to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                <>
+                  <LinkContainer to="/cart">
+                    <Nav.Link>
+                      <i className="fa fa-shopping-cart"></i> CART
+                    </Nav.Link>
                   </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
-                  </NavDropdown.Item>
-                </NavDropdown>
+
+                  <LinkContainer to="/myorders">
+                    <Nav.Link>
+                      <i className="fa fa-shopping-cart"></i> ORDERS
+                    </Nav.Link>
+                  </LinkContainer>
+                  <NavDropdown title={userInfo.name} id="username">
+                    <LinkContainer to="/profile">
+                      <NavDropdown.Item>Profile</NavDropdown.Item>
+                    </LinkContainer>
+                    <NavDropdown.Item onClick={logoutHandler}>
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </>
               ) : (
                 <LinkContainer to="/login">
                   <Nav.Link>

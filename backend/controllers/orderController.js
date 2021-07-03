@@ -109,6 +109,24 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   }
 });
 
+const getMyOrderById = asyncHandler(async (req, res) => {
+  const pageSize = 5;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const count = await Order.countDocuments({ user: req.user.id });
+  const orders = await Order.find({ user: req.user.id })
+    .populate("user", "name email")
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  if (orders) {
+    res.json({ orders, page, pages: Math.ceil(count / pageSize) });
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
+
 export {
   addOrderItems,
   getOrderById,
@@ -116,4 +134,5 @@ export {
   getMyOrders,
   getAllOrders,
   updateOrderToDelivered,
+  getMyOrderById,
 };

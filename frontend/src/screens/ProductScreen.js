@@ -209,7 +209,7 @@ const ProductScreen = ({ history, match }) => {
                     </Form>
                   ) : (
                     <Message>
-                      Please <Link to="/login">Sign in</Link>to wright a review
+                      Please <Link to="/login">Sign in</Link>to write a review
                     </Message>
                   )}
                 </ListGroup.Item>
