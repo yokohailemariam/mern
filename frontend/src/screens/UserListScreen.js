@@ -57,7 +57,7 @@ const UserListScreen = ({ history }) => {
                 <td>{user._id}</td>
                 <td>{user.name}</td>
                 <td>
-                  <Link href={`mailto:${user.email}`}>{user.email}</Link>
+                  <Link to={`mailto:${user.email}`}>{user.email}</Link>
                 </td>
                 <td>
                   {user.isAdmin ? (

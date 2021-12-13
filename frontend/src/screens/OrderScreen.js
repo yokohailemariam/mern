@@ -105,7 +105,7 @@ const OrderScreen = ({ match, history }) => {
               </p>
               <p>
                 <strong>Email: </strong>
-                <Link href={`mailto:${order.user.email}`}>{order.user.email}</Link>
+                <Link to={`mailto:${order.user.email}`}>{order.user.email}</Link>
               </p>
               <p>
                 <strong>Address:</strong>
