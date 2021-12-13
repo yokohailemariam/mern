@@ -15,7 +15,6 @@ import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
 } from "../constants/orderConstants";
-import { Link } from 'react-router-dom'
 
 const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id;
