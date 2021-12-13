@@ -5,6 +5,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { Table, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { Link } from 'react-router-dom'
 
 const UserListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const UserListScreen = ({ history }) => {
                 <td>{user._id}</td>
                 <td>{user.name}</td>
                 <td>
-                  <a href={`mailto:${user.email}`}>{user.email}</a>
+                  <Link href={`mailto:${user.email}`}>{user.email}</Link>
                 </td>
                 <td>
                   {user.isAdmin ? (

@@ -15,6 +15,7 @@ import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
 } from "../constants/orderConstants";
+import { Link } from 'react-router-dom'
 
 const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id;
@@ -105,7 +106,7 @@ const OrderScreen = ({ match, history }) => {
               </p>
               <p>
                 <strong>Email: </strong>
-                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                <Link href={`mailto:${order.user.email}`}>{order.user.email}</Link>
               </p>
               <p>
                 <strong>Address:</strong>
